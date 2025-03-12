@@ -4,11 +4,11 @@ const Header = () => (
     <header>
         <menu>
             <li><Link to="/home">Accueil</Link></li>
-            <li><Link to="/article/Transport">Transport</Link></li>
-            <li><Link to="/article/Alimentation">Alimentation</Link></li>
-            <li><Link to="/article/Vestimentaire">Vestimentaire</Link></li>
-            <li><Link to="/article/Electronique">Electronique</Link></li>
-            <li><Link to="/article/Entretien">Entretien</Link></li>
+            <li><Link to="/article/Transport/Découvrir">Transport</Link></li>
+            <li><Link to="/article/Alimentation/Découvrir">Alimentation</Link></li>
+            <li><Link to="/article/Vestimentaire/Découvrir">Vestimentaire</Link></li>
+            <li><Link to="/article/Electronique/Découvrir">Electronique</Link></li>
+            <li><Link to="/article/Entretien/Découvrir">Entretien</Link></li>
             <li><button>Param</button></li>
         </menu>
     </header>

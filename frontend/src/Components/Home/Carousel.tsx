@@ -1,6 +1,6 @@
 import { useState } from "react";
-import image1 from "../../Assets/image1.png";
-import image2 from "../../Assets/image2.png";
+import image1 from "../../Assets/Carousel/image1.png";
+import image2 from "../../Assets/Carousel/image2.png";
 
 const images = [
     image1,

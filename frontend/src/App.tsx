@@ -8,7 +8,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/home" element={<HomeScreen />} />
-          <Route path="/article/:category" element={<ArticleScreen />} />
+          <Route path="/article/:category/:subCategory" element={<ArticleScreen />} />
         </Routes>
       </Router>
     </>
