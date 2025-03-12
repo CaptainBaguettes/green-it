@@ -1,18 +1,18 @@
-import {Route, BrowserRouter as Router, Routes } from "react-router-dom"
-import ArticleScreen from "./Screens/ArticleScreen"
-import HomeScreen from "./Screens/HomeScreen"
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import ArticleScreen from "./Screens/ArticleScreen";
+import HomeScreen from "./Screens/HomeScreen";
 
 function App() {
   return (
     <>
       <Router>
-      <Routes>
-        <Route path="/home" element={<HomeScreen />} />
-        <Route path="/article" element={<ArticleScreen />} />
-      </Routes>
-    </Router>
+        <Routes>
+          <Route path="/home" element={<HomeScreen />} />
+          <Route path="/article/:category" element={<ArticleScreen />} />
+        </Routes>
+      </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
