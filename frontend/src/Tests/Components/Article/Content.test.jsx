@@ -16,17 +16,14 @@ describe("Content Component", () => {
             </MemoryRouter>
         );
 
-        // Check if category image is rendered
         const categoryImage = screen.getByAltText(category);
         expect(categoryImage).toBeInTheDocument();
         expect(categoryImage).toHaveAttribute("src", expect.stringContaining("image3.png"));
 
-        // Check if subcategory image is rendered
         const subCategoryImage = screen.getByAltText(subCategory);
         expect(subCategoryImage).toBeInTheDocument();
         expect(subCategoryImage).toHaveAttribute("src", expect.stringContaining("image8.png"));
 
-        // Check if category text is displayed
         expect(screen.getByText(category)).toBeInTheDocument();
     });
 });
