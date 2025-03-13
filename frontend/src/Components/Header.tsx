@@ -1,31 +1,45 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PreferenceService from "../Services/PreferenceService";
+import { useAuth } from '../context/AuthContext';
 
 const categories = ["Transport", "Alimentation", "Vestimentaire", "Electronique", "Entretien"];
 
 const Header = () => {
     const [enabledCategories, setEnabledCategories] = useState<string[]>([]);
+    const navigate = useNavigate();
+    const { logout } = useAuth();
 
-    // Load preferences from local storage when the component mounts
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
+
     useEffect(() => {
         setEnabledCategories(PreferenceService.getPreferencesFromLocalStorage());
     }, []);
 
     return (
         <header>
-            <menu>
+            <menu className="flex space-between align-center">
                 <li><Link to="/home">Accueil</Link></li>
-                
-                {categories.map((category) => 
+
+                {categories.map((category) =>
                     enabledCategories.includes(category) && (
                         <li key={category}>
                             <Link to={`/article/${category}/Découvrir`}>{category}</Link>
                         </li>
                     )
                 )}
-
-                <li><Link to="/preference"><button>Param</button></Link></li>
+                <div>
+                    <Link to="/preference"><button>Param</button></Link>
+                    <button
+                        onClick={handleLogout}
+                        className="danger"
+                    >
+                        Se déconnecter
+                    </button>
+                </div>
             </menu>
         </header>
     );
