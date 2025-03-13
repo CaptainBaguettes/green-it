@@ -7,7 +7,7 @@ import LoginScreen from "./Screens/LoginScreen";
 import SignupScreen from "./Screens/SignupScreen";
 import './App.css'
 import PreferenceScreen from "./Screens/PreferenceScreen";
-
+import PublicRoute from "./Components/PublicRoute";
 
 function App() {
   return (
@@ -40,8 +40,16 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/signup" element={<SignupScreen />} />
-            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/signup" element={
+              <PublicRoute>
+                <SignupScreen />
+              </PublicRoute>
+            } />
+            <Route path="/login" element={
+              <PublicRoute>
+                <LoginScreen />
+              </PublicRoute>
+            } />
           </Routes>
         </Router>
       </AuthProvider>
