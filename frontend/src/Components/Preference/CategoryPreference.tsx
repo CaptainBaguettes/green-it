@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import PreferenceService from "../../Services/PreferenceService";
+import { useNavigate } from "react-router-dom";
 
-const categories = ["Transport", "Alimentation", "Vestimentaire", "Electronique", "Entretien"];
+const categories = ['Transport', 'Alimentation', 'Vestimentaire', 'Electronique', 'Entretien']; // Mise à jour de la casse
 
 interface CategoryPreferenceProps {
     showSubmitButton?: boolean;
@@ -13,6 +14,7 @@ const CategoryPreference = ({ showSubmitButton = false, onPreferencesChange, use
     const [preferences, setPreferences] = useState<{ [key: string]: boolean }>(
         categories.reduce((acc, category) => ({ ...acc, [category]: false }), {})
     );
+    const navigate = useNavigate();
 
     useEffect(() => {
         const storedPrefs = PreferenceService.getPreferencesFromLocalStorage();
@@ -44,6 +46,7 @@ const CategoryPreference = ({ showSubmitButton = false, onPreferencesChange, use
 
         if (userId) {
             await PreferenceService.updatePreferencesInAPI(userId);
+            navigate('/home');
         }
     };
 

@@ -13,12 +13,12 @@ const User = sequelize.define('user', {
   },
   pwd: {
     type: DataTypes.STRING,
-    allowNull:false,
+    allowNull: false,
   },
   prefs: {
     type: DataTypes.JSON,
     allowNull: true,
-    defaultValue:['TRANSPORT','ALIMENTATION','VESTIMENTAIRE','ELECTRONIQUE','ENTRETIENT']
+    defaultValue: ['Transport', 'Alimentation', 'Vestimentaire', 'Electronique', 'Entretien']
   },
 }, {
   tableName: 'user',

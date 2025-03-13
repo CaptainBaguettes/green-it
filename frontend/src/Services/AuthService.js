@@ -1,27 +1,35 @@
+import PreferenceService from './PreferenceService';
+
 const API_URL = "http://localhost:3000/api/users";
 
 const AuthService = {
     login: async (email, password) => {
-        const response = await fetch(`${API_URL}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, pwd: password }) // Changé 'password' en 'pwd'
-        });
+        try {
+            const response = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, pwd: password })
+            });
 
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Échec de la connexion');
-        }
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Échec de la connexion');
+            }
 
-        const data = await response.json();
-        if (data.token) {
-            localStorage.setItem('authToken', data.token);
-            localStorage.setItem('userId', data.userId);
-            return data;
+            const data = await response.json();
+            if (data.token) {
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('userId', data.userId);
+                await PreferenceService.getPreferencesFromAPI(data.userId);
+                return data;
+            }
+            throw new Error('Token manquant dans la réponse');
+        } catch (error) {
+            console.error('Erreur lors de la connexion:', error);
+            throw error;
         }
-        throw new Error('Token manquant dans la réponse');
     },
 
     signup: async (email, password) => {

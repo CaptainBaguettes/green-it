@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
 
-import transportImage from "../../Assets/Category/image3.png";
-import alimentationImage from "../../Assets/Category/image4.png";
-import vestimentaireImage from "../../Assets/Category/image5.png";
-import electroniqueImage from "../../Assets/Category/image6.png";
-import entretienImage from "../../Assets/Category/image7.png";
-import decouvrirImage from "../../Assets/SubCategory/image8.png";
-import transiterImage from "../../Assets/SubCategory/image9.png";
-import agirImage from "../../Assets/SubCategory/image10.png";
+import transportImage from "../../Assets/Category/image3.webp";
+import alimentationImage from "../../Assets/Category/image4.webp";
+import vestimentaireImage from "../../Assets/Category/image5.webp";
+import electroniqueImage from "../../Assets/Category/image6.webp";
+import entretienImage from "../../Assets/Category/image7.webp";
+import decouvrirImage from "../../Assets/SubCategory/image8.webp";
+import transiterImage from "../../Assets/SubCategory/image9.webp";
+import agirImage from "../../Assets/SubCategory/image10.webp";
 
 const categoryImages = {
     Transport: transportImage,
@@ -41,14 +41,14 @@ const Content = () => {
                 <tbody>
                     <tr>
                         <td>
-                            <img src={categoryImages[category]} alt={category} width="150" loading="lazy" />
+                            <img src={categoryImages[category]} alt="" width="150" loading="lazy" />
                         </td>
                         <td>{category}</td>
                     </tr>
                     <tr>
                         <td>{text}</td>
                         <td>
-                            <img src={subCategoryImages[subCategory]} alt={subCategory} width="150" loading="lazy" />
+                            <img src={subCategoryImages[subCategory]} alt="" width="150" loading="lazy" />
                         </td>
                     </tr>
                 </tbody>
