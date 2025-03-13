@@ -1,17 +1,34 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PreferenceService from "../Services/PreferenceService";
 
-const Header = () => (
-    <header>
-        <menu>
-            <li><Link to="/home">Accueil</Link></li>
-            <li><Link to="/article/Transport/Découvrir">Transport</Link></li>
-            <li><Link to="/article/Alimentation/Découvrir">Alimentation</Link></li>
-            <li><Link to="/article/Vestimentaire/Découvrir">Vestimentaire</Link></li>
-            <li><Link to="/article/Electronique/Découvrir">Electronique</Link></li>
-            <li><Link to="/article/Entretien/Découvrir">Entretien</Link></li>
-            <li><button>Param</button></li>
-        </menu>
-    </header>
-);
+const categories = ["Transport", "Alimentation", "Vestimentaire", "Electronique", "Entretien"];
+
+const Header = () => {
+    const [enabledCategories, setEnabledCategories] = useState<string[]>([]);
+
+    // Load preferences from local storage when the component mounts
+    useEffect(() => {
+        setEnabledCategories(PreferenceService.getPreferencesFromLocalStorage());
+    }, []);
+
+    return (
+        <header>
+            <menu>
+                <li><Link to="/home">Accueil</Link></li>
+                
+                {categories.map((category) => 
+                    enabledCategories.includes(category) && (
+                        <li key={category}>
+                            <Link to={`/article/${category}/Découvrir`}>{category}</Link>
+                        </li>
+                    )
+                )}
+
+                <li><Link to="/preference"><button>Param</button></Link></li>
+            </menu>
+        </header>
+    );
+};
 
 export default Header;
