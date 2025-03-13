@@ -1,13 +1,15 @@
 import { Route, BrowserRouter as Router, Routes, Navigate } from "react-router-dom";
-import ArticleScreen from "./Screens/ArticleScreen";
-import HomeScreen from "./Screens/HomeScreen";
+import { lazy } from 'react';
 import ProtectedRoute from "./Components/Routes/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
-import LoginScreen from "./Screens/LoginScreen";
-import SignupScreen from "./Screens/SignupScreen";
 import './App.css'
-import PreferenceScreen from "./Screens/PreferenceScreen";
 import PublicRoute from "./Components/Routes/PublicRoute";
+
+const ArticleScreen = lazy(() => import("./Screens/ArticleScreen"));
+const HomeScreen = lazy(() => import("./Screens/HomeScreen"));
+const LoginScreen = lazy(() => import("./Screens/LoginScreen"));
+const SignupScreen = lazy(() => import("./Screens/SignupScreen"));
+const PreferenceScreen = lazy(() => import("./Screens/PreferenceScreen"));
 
 function App() {
   return (

@@ -5,7 +5,7 @@ import Menu from "../Components/Article/Menu";
 import Content from "../Components/Article/Content";
 
 const ArticleScreen = () => {
-    const { category } = useParams();
+    useParams();
     return (
         <div>
             <Header />

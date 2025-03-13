@@ -12,20 +12,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        // Utiliser uniquement authToken
+        const token = localStorage.getItem('authToken');
         setIsAuthenticated(!!token);
     }, []);
 
     const login = (token: string) => {
-        localStorage.setItem('token', token);
+        // Utiliser uniquement authToken
+        localStorage.setItem('authToken', token);
         setIsAuthenticated(true);
     };
 
     const logout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('userPreferences');
+        // Supprimer uniquement les clés nécessaires
         localStorage.removeItem('authToken');
         localStorage.removeItem('userId');
+        localStorage.removeItem('userPreferences');
         setIsAuthenticated(false);
     };
 

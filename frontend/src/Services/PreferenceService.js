@@ -17,6 +17,8 @@ const PreferenceService = {
             if (!token) throw new Error("No authentication token found");
             if (!userId) throw new Error("User ID is required");
 
+            console.log('Fetching preferences for userId:', userId);
+
             const response = await fetch(`${API_URL}/${userId}`, {
                 method: "GET",
                 headers: {
@@ -25,13 +27,23 @@ const PreferenceService = {
                 }
             });
 
-            if (!response.ok) throw new Error("Failed to fetch preferences");
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Failed to fetch preferences");
+            }
 
-            const data = await response.json();
-            return Array.isArray(data.prefs) ? data.prefs : [];
+            const preferences = await response.json();
+
+            if (preferences.length) {
+                PreferenceService.updatePreferencesInLocalStorage(preferences);
+                return preferences;
+            } else {
+                console.warn('Format de préférences inattendu:', preferences);
+                return [];
+            }
         } catch (error) {
             console.error("Error fetching preferences:", error);
-            throw error;
+            return [];
         }
     },
 
@@ -55,9 +67,7 @@ const PreferenceService = {
      */
     updatePreferencesInLocalStorage: (selectedCategories) => {
         try {
-            if (!Array.isArray(selectedCategories)) throw new Error("Invalid data format");
             localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(selectedCategories));
-            console.log("Updated preferences in local storage:", selectedCategories);
         } catch (error) {
             console.error("Error updating preferences in local storage:", error);
         }
