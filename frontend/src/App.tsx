@@ -1,13 +1,13 @@
 import { Route, BrowserRouter as Router, Routes, Navigate } from "react-router-dom";
 import ArticleScreen from "./Screens/ArticleScreen";
 import HomeScreen from "./Screens/HomeScreen";
-import ProtectedRoute from "./Components/ProtectedRoute";
+import ProtectedRoute from "./Components/Routes/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import LoginScreen from "./Screens/LoginScreen";
 import SignupScreen from "./Screens/SignupScreen";
 import './App.css'
 import PreferenceScreen from "./Screens/PreferenceScreen";
-
+import PublicRoute from "./Components/Routes/PublicRoute";
 
 function App() {
   return (
@@ -32,9 +32,24 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/preference" element={<PreferenceScreen />}  />
-            <Route path="/signup" element={<SignupScreen />} />
-            <Route path="/login" element={<LoginScreen />} />
+            <Route
+              path="/preference"
+              element={
+                <ProtectedRoute>
+                  <PreferenceScreen />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/signup" element={
+              <PublicRoute>
+                <SignupScreen />
+              </PublicRoute>
+            } />
+            <Route path="/login" element={
+              <PublicRoute>
+                <LoginScreen />
+              </PublicRoute>
+            } />
           </Routes>
         </Router>
       </AuthProvider>
