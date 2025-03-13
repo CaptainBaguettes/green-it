@@ -1,9 +1,8 @@
-const API_URL = "http://localhost:3000/api/users/prefs"; // Base URL for API requests
-const DEFAULT_TOKEN = "your-default-token"; // Replace with your default token
+const API_URL = "http://localhost:3000/api/users/prefs";
 const LOCAL_STORAGE_KEY = "userPreferences";
 
 const getAuthToken = () => {
-    return localStorage.getItem("authToken") || DEFAULT_TOKEN;
+    return localStorage.getItem("authToken");
 };
 
 const PreferenceService = {
@@ -14,13 +13,15 @@ const PreferenceService = {
      */
     getPreferencesFromAPI: async (userId) => {
         try {
+            const token = getAuthToken();
+            if (!token) throw new Error("No authentication token found");
             if (!userId) throw new Error("User ID is required");
 
             const response = await fetch(`${API_URL}/${userId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${getAuthToken()}`
+                    "Authorization": `Bearer ${token}`
                 }
             });
 
@@ -30,7 +31,7 @@ const PreferenceService = {
             return Array.isArray(data.prefs) ? data.prefs : [];
         } catch (error) {
             console.error("Error fetching preferences:", error);
-            return [];
+            throw error;
         }
     },
 
@@ -68,6 +69,8 @@ const PreferenceService = {
      */
     updatePreferencesInAPI: async (userId) => {
         try {
+            const token = getAuthToken();
+            if (!token) throw new Error("No authentication token found");
             if (!userId) throw new Error("User ID is required");
 
             // Retrieve preferences from local storage
@@ -77,16 +80,17 @@ const PreferenceService = {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${getAuthToken()}`
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({ prefs: selectedCategories })
             });
 
             if (!response.ok) throw new Error("Failed to update preferences in API");
 
-            console.log("Updated preferences in API:", await response.json());
+            return await response.json();
         } catch (error) {
             console.error("Error updating preferences in API:", error);
+            throw error;
         }
     }
 };

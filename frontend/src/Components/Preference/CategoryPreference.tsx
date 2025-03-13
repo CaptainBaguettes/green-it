@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import PreferenceService from "../../Services/PreferenceService";
 
 const categories = ["Transport", "Alimentation", "Vestimentaire", "Electronique", "Entretien"];
-const userId = "123"; // Replace with actual user ID
 
-const CategoryPreference = () => {
+interface CategoryPreferenceProps {
+    showSubmitButton?: boolean;
+    onPreferencesChange?: (preferences: string[]) => void;
+    userId?: string;
+}
+
+const CategoryPreference = ({ showSubmitButton = false, onPreferencesChange, userId }: CategoryPreferenceProps) => {
     const [preferences, setPreferences] = useState<{ [key: string]: boolean }>(
         categories.reduce((acc, category) => ({ ...acc, [category]: false }), {})
     );
 
-    // Load preferences from local storage when the component mounts
     useEffect(() => {
         const storedPrefs = PreferenceService.getPreferencesFromLocalStorage();
         if (storedPrefs.length > 0) {
@@ -23,22 +27,24 @@ const CategoryPreference = () => {
 
     const handleChange = (event: { target: { name: string; checked: boolean } }) => {
         const { name, checked } = event.target;
-        setPreferences((prev) => ({ ...prev, [name]: checked }));
+        const newPreferences = { ...preferences, [name]: checked };
+        setPreferences(newPreferences);
+
+        // Notifier le parent des changements
+        if (onPreferencesChange) {
+            const selectedPreferences = Object.keys(newPreferences).filter(category => newPreferences[category]);
+            onPreferencesChange(selectedPreferences);
+        }
     };
 
     const handleSubmit = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
-
-        // Convert preferences to an array of selected categories
         const selectedPreferences = Object.keys(preferences).filter(category => preferences[category]);
-
-        // Update local storage
         PreferenceService.updatePreferencesInLocalStorage(selectedPreferences);
 
-        // Send the updated preferences to the API
-        await PreferenceService.updatePreferencesInAPI(userId);
-
-        console.log("Preferences saved:", selectedPreferences);
+        if (userId) {
+            await PreferenceService.updatePreferencesInAPI(userId);
+        }
     };
 
     return (
@@ -57,7 +63,7 @@ const CategoryPreference = () => {
                     </label>
                 ))}
             </fieldset>
-            <button type="submit">Submit</button>
+            {showSubmitButton && <button type="submit">Submit</button>}
         </form>
     );
 };

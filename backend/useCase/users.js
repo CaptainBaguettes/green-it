@@ -18,13 +18,17 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+    console.log('Login attempt with:', { email: req.body.email }); // Log de débogage
+
     User.findOne({ where: { email: req.body.email } })
         .then(user => {
+            console.log('User found:', user ? 'yes' : 'no'); // Log de débogage
             if (!user) {
                 return res.status(401).json({ error: 'Utilisateur non trouvé !' });
             }
             bcrypt.compare(req.body.pwd, user.pwd)
                 .then(valid => {
+                    console.log('Password valid:', valid); // Log de débogage
                     if (!valid) {
                         return res.status(401).json({ error: 'Mot de passe incorrect !' });
                     }
@@ -37,38 +41,44 @@ exports.login = (req, res, next) => {
                         )
                     });
                 })
-                .catch(error => res.status(500).json({ error }));
+                .catch(error => {
+                    console.error('Bcrypt error:', error); // Log de débogage
+                    res.status(500).json({ error })
+                });
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(error => {
+            console.error('Database error:', error); // Log de débogage
+            res.status(500).json({ error })
+        });
 };
 
-exports.updatePrefs = (req,res,next) => {
+exports.updatePrefs = (req, res, next) => {
     try {
         User.update(req.body, {
-          where: { id: req.params.id },
-          returning: true,
+            where: { id: req.params.id },
+            returning: true,
         }).then(() => {
             User.findByPk(req.params.id).then(user => res.json(user))
-          })
-          .catch(error => console.log(error))
-    
-    
-      } catch (error) {
+        })
+            .catch(error => console.log(error))
+
+
+    } catch (error) {
         console.error("Erreur lors de la mise à jour de l'élément:", error);
         throw error;
-      }
+    }
 }
 
-exports.prefs = async (req,res,next) => {
+exports.prefs = async (req, res, next) => {
     try {
         const user = await User.findByPk(req.params.id);
-        if(!user) {
+        if (!user) {
             throw new Error("Aucun élément trouvé avec cet identifiant.");
         }
         return res.status(200).json(user.dataValues.prefs)
-      } catch (error) {
+    } catch (error) {
         console.error("Erreur lors de la récupération de l'élément:", error);
         throw error;
-      }
-  
+    }
+
 }

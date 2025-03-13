@@ -32,7 +32,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/preference" element={<PreferenceScreen />}  />
+            <Route
+              path="/preference"
+              element={
+                <ProtectedRoute>
+                  <PreferenceScreen />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/signup" element={<SignupScreen />} />
             <Route path="/login" element={<LoginScreen />} />
           </Routes>
