@@ -26,19 +26,15 @@ const SignupForm: React.FC = () => {
         }
 
         try {
-            // 1. Créer le compte
-            const signupResponse = await AuthService.signup(email, password);
+            await AuthService.signup(email, password);
 
-            // 2. Se connecter automatiquement
             const loginResponse = await AuthService.login(email, password);
             login(loginResponse.token);
 
-            // 3. Sauvegarder les préférences
             if (selectedPreferences.length > 0) {
                 await PreferenceService.updatePreferencesInAPI(loginResponse.userId);
             }
 
-            // 4. Rediriger vers la page d'accueil
             navigate('/home');
         } catch (err) {
             setError('Échec de l\'inscription');
@@ -79,10 +75,8 @@ const SignupForm: React.FC = () => {
                         required
                     />
                 </label>
-                <CategoryPreference
-                    showSubmitButton={false}
-                    onPreferencesChange={setSelectedPreferences}
-                />
+
+
                 <button type="submit">S'inscrire</button>
             </form>
             <a onClick={handleLogin}>J'ai déjà un compte</a>
