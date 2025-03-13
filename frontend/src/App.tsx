@@ -6,6 +6,8 @@ import { AuthProvider } from "./context/AuthContext";
 import LoginScreen from "./Screens/LoginScreen";
 import SignupScreen from "./Screens/SignupScreen";
 import './App.css'
+import PreferenceScreen from "./Screens/PreferenceScreen";
+
 
 function App() {
   return (
@@ -30,6 +32,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/preference" element={<PreferenceScreen />}  />
             <Route path="/signup" element={<SignupScreen />} />
             <Route path="/login" element={<LoginScreen />} />
           </Routes>

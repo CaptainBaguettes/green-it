@@ -18,7 +18,7 @@ const User = sequelize.define('user', {
   prefs: {
     type: DataTypes.JSON,
     allowNull: true,
-    defaultValue:null
+    defaultValue:['TRANSPORT','ALIMENTATION','VESTIMENTAIRE','ELECTRONIQUE','ENTRETIENT']
   },
 }, {
   tableName: 'user',
